@@ -1,5 +1,5 @@
-import { discord } from './discord';
+// import { discord } from './discord';
 
-export const aaa = () => {
-    discord.sendMessage();
-}
+// export const aaa = () => {
+//     discord.sendMessage();
+// }
