@@ -33,22 +33,6 @@ export default class AppCron {
     this.cron.start();
   }
 
-  // job() {
-  //   return () => {
-  //     console.log('[Cron] slow job started');
-  //     this.queue.enqueue(
-  //       () =>
-  //         new Promise((resolve) => {
-  //           setTimeout(() => {
-  //             console.log(a);
-  //             console.log('[Cron] slow job finished');
-  //             resolve(a);
-  //           }, 3000);
-  //         }),
-  //     );
-  //   };
-  // }
-
   job() {
     return async () => {
       console.log('[Cron] job started');
