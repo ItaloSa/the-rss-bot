@@ -6,9 +6,9 @@ import Parser from 'rss-parser';
 import checksum from 'checksum';
 import { pick } from 'lodash';
 
-import AppQueue from './queue';
-import AppController from './controller';
-import { FeedDocument } from './models/feed';
+import AppQueue from '../core/queue';
+import AppController from '../core/controller';
+import { FeedDocument } from '../core/models/feed';
 
 export default class AppCron {
   cron: CronJob;
