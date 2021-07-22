@@ -1,4 +1,5 @@
-import Feed, { FeedType } from './models/feed';
+/* eslint-disable class-methods-use-this */
+import { Feed, FeedModel } from './models/feed';
 import { connectDb } from './db';
 
 export default class Controller {
@@ -6,13 +7,38 @@ export default class Controller {
     connectDb();
   }
 
-  async addFeed(data: FeedType) {
+  async addFeed(data: Feed) {
+    let result = null;
     try {
-      const server = await Feed.create(data);
-      return server;
+      result = await FeedModel.create(data);
     } catch (err) {
       console.log(err);
     }
+    return result;
+  }
+
+  async getFeeds() {
+    let result = null;
+    try {
+      result = await FeedModel.find({ deleted: false, activated: true });
+    } catch (err) {
+      console.log(err);
+    }
+    return result;
+  }
+
+  async updateChecksum(id: string, latestChecksum: string) {
+    let result = null;
+    try {
+      result = await FeedModel.findByIdAndUpdate(
+        id,
+        { latestChecksum },
+        { useFindAndModify: true },
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    return result;
   }
 }
 

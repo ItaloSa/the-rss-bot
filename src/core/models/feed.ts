@@ -1,6 +1,19 @@
-import { Schema, model, models } from 'mongoose';
+import { Schema, model, Document, Model } from 'mongoose';
 
-const FeedSchema = new Schema(
+export interface Feed {
+  channelId: string;
+  serverId: string;
+  name: string;
+  link: string;
+  createdBy: string;
+  activated: boolean;
+  deleted: boolean;
+  latestChecksum: string;
+}
+
+export type FeedDocument = Feed & Document;
+
+const FeedSchema = new Schema<FeedDocument, Model<FeedDocument>>(
   {
     channelId: { type: String, required: true },
     serverId: { type: String, required: true },
@@ -9,18 +22,12 @@ const FeedSchema = new Schema(
     createdBy: { type: String, required: true },
     activated: { type: Boolean, default: true },
     deleted: { type: Boolean, default: false },
+    latestChecksum: { type: String, default: '' },
   },
   { timestamps: true },
 );
 
-export type FeedType = {
-  channelId: string;
-  serverId: string;
-  name: string;
-  link: string;
-  createdBy: string;
-  activated: boolean;
-  deleted: boolean;
-};
-
-export default models.LinkSchema || model('Feed', FeedSchema);
+export const FeedModel = model<FeedDocument, Model<FeedDocument>>(
+  'Feed',
+  FeedSchema,
+);

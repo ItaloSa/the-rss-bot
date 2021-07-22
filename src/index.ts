@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 
 // import { DiscordBot } from './discord';
-// import Controller from './core/controller';
+import Controller from './core/controller';
 // import { parseFeed } from './feed';
 // import { aaa } from './test';
 import AppQueue from './core/queue';
@@ -27,15 +27,10 @@ app.use(express.json());
 app.get('/', (req, res) => res.send('Express + TypeScript Server'));
 
 app.get('/test', async (req, res) => {
-  queueInstance.enqueue(
-    () =>
-      new Promise((resolve) => {
-        setTimeout(() => {
-          console.log('slow job finished');
-          resolve('ok');
-        }, 3000);
-      }),
-  );
+  queueInstance.enqueue(async () => {
+    console.log('aaa');
+    await cronInstance.fetchData('https://www.braziljs.org/feed');
+  });
   res.json({});
 });
 
@@ -44,6 +39,9 @@ app.listen(PORT, () => {
   // setupDiscord();
   queueInstance = new AppQueue();
   queueInstance.start();
-  cronInstance = new AppCron(queueInstance);
-  cronInstance.setup();
+  const controller = new Controller();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  cronInstance = new AppCron(queueInstance, controller);
+  // cronInstance.setup();
+  // cronInstance.fetchData('https://kentcdodds.com/blog/rss.xml');
 });
