@@ -52,6 +52,20 @@ export default class Controller {
     }
     return result;
   }
+
+  async removeFeed(id: string) {
+    let result = null;
+    try {
+      result = await FeedModel.findByIdAndUpdate(
+        id,
+        { deleted: true },
+        { useFindAndModify: false },
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    return result;
+  }
 }
 
 export type CoreController = typeof Controller.prototype;

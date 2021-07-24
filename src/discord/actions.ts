@@ -48,7 +48,19 @@ const listFeed = async ({
   return `:notepad_spiral: (${items.length}) Feeds: \n ${renders}`;
 };
 
+const removeFeed = async ({
+  controller,
+  args,
+}: ActionArgs): Promise<string> => {
+  const feedId = args[1];
+
+  await controller.removeFeed(feedId);
+
+  return 'Feed removed :white_check_mark:';
+};
+
 export const actions = {
   [ACTIONS.ADD]: addFeed,
   [ACTIONS.LIST]: listFeed,
+  [ACTIONS.REMOVE]: removeFeed,
 };
