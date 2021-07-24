@@ -25,8 +25,10 @@ export default class AppCron {
     appController: AppController,
     discordInstance: DiscordBot,
   ) {
+    // every minute - '*/1 * * * *'
+    // every 15 minute - '*/15 * * * *'
     this.cron = new CronJob(
-      '*/1 * * * *',
+      '*/15 * * * *',
       this.job(),
       null,
       true,
