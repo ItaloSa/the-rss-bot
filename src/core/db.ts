@@ -10,10 +10,10 @@ export function connectDb() {
     },
     (err) => {
       if (err) {
-        console.log(`[Database] connection error: ${err.message}`);
+        console.log(`[Database]: connection error: ${err.message}`);
         return;
       }
-      console.log('[Database] connection stablished');
+      console.log('[Database]: connection stablished');
     },
   );
 }

@@ -4,6 +4,7 @@ import express from 'express';
 
 import Controller from './core/controller';
 import AppQueue from './core/queue';
+import { DiscordBot } from './discord';
 import AppCron from './jobs/updates';
 
 dotenv.config();
@@ -14,10 +15,15 @@ let queueInstance: AppQueue;
 let cronInstance: AppCron;
 
 const setup = () => {
+  const controller = new Controller();
+  const discord = new DiscordBot(controller);
+
+  discord.start();
+
   queueInstance = new AppQueue();
   queueInstance.start();
-  const controller = new Controller();
-  cronInstance = new AppCron(queueInstance, controller);
+
+  cronInstance = new AppCron(queueInstance, controller, discord);
   cronInstance.setup();
 };
 
