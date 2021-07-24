@@ -1,17 +1,8 @@
 import Discord from 'discord.js';
-import { CoreController } from '../core/controller';
 
-type FeedMessage = {
-  channelId: string;
-  title: string;
-  description: string;
-  timestamp: string;
-  url: string;
-  author: {
-    name: string;
-    url: string;
-  };
-};
+import { CoreController } from '../core/controller';
+import { FeedMessage } from './types';
+import { actions } from './actions';
 
 export class DiscordBot {
   client: Discord.Client;
@@ -68,24 +59,17 @@ export class DiscordBot {
 
   async handleMessage(args: string[], message: Discord.Message) {
     try {
-      switch (args[0]) {
-        case 'feed-add':
-          await this.controller.addFeed({
-            channelId: message.channel.id,
-            serverId: message.guild?.id || '',
-            name: args[1],
-            createdBy: message.author.id,
-            link: args[2],
-            activated: true,
-            deleted: false,
-            latestChecksum: '',
-          });
-          await this.sendSimpleMessage(
-            'Feed added :partying_face:',
-            message.channel.id,
-          );
-        default:
-          break;
+      const command = args[0] || '';
+
+      if (actions.hasOwnProperty(command)) {
+        const response = await actions[command]({
+          controller: this.controller,
+          args,
+          message,
+          handleSendMessage: this.sendSimpleMessage,
+        });
+
+        await this.sendSimpleMessage(response, message.channel.id);
       }
     } catch (err) {
       console.log(err);

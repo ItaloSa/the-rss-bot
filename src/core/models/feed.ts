@@ -1,6 +1,7 @@
 import { Schema, model, Document, Model } from 'mongoose';
 
 export interface Feed {
+  _id?: string;
   channelId: string;
   serverId: string;
   name: string;

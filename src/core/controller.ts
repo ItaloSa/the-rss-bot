@@ -2,6 +2,8 @@
 import { Feed, FeedModel } from './models/feed';
 import { connectDb } from './db';
 
+type FeedFilter = { serverId?: string };
+
 export default class Controller {
   constructor() {
     connectDb();
@@ -21,6 +23,16 @@ export default class Controller {
     let result = null;
     try {
       result = await FeedModel.find({ deleted: false, activated: true });
+    } catch (err) {
+      console.log(err);
+    }
+    return result;
+  }
+
+  async getFilteredFeeds({ serverId = '' }: FeedFilter): Promise<Feed[]> {
+    let result: Feed[] = [];
+    try {
+      result = await FeedModel.find({ deleted: false, serverId });
     } catch (err) {
       console.log(err);
     }
