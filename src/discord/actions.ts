@@ -40,7 +40,7 @@ const listFeed = async ({
   });
 
   if (!items.length) {
-    return `:broken_heart: List feed has empty! =(`;
+    return `:broken_heart: There's no feed registered on this server! =(`;
   }
 
   const renders = items.map((item) => renderFeedItem(item)).join('');
