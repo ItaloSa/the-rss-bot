@@ -33,7 +33,7 @@ export default class Controller {
       result = await FeedModel.findByIdAndUpdate(
         id,
         { latestChecksum },
-        { useFindAndModify: true },
+        { useFindAndModify: false },
       );
     } catch (err) {
       console.log(err);

@@ -9,6 +9,7 @@ import { pick } from 'lodash';
 import AppQueue from '../core/queue';
 import AppController from '../core/controller';
 import { FeedDocument } from '../core/models/feed';
+import { DiscordBot } from '../discord';
 
 export default class AppCron {
   cron: CronJob;
@@ -17,7 +18,13 @@ export default class AppCron {
 
   appController: AppController;
 
-  constructor(queueInstance: AppQueue, appController: AppController) {
+  discordInstance: DiscordBot;
+
+  constructor(
+    queueInstance: AppQueue,
+    appController: AppController,
+    discordInstance: DiscordBot,
+  ) {
     this.cron = new CronJob(
       '*/1 * * * *',
       this.job(),
@@ -27,6 +34,7 @@ export default class AppCron {
     );
     this.queue = queueInstance;
     this.appController = appController;
+    this.discordInstance = discordInstance;
   }
 
   setup() {
@@ -81,7 +89,14 @@ export default class AppCron {
           return;
         }
 
-        console.log('sent to discord', shaped);
+        await this.discordInstance.sendFeedMessage({
+          channelId: item.channelId,
+          title: shaped.item.title || '',
+          description: shaped.item.contentSnippet || '',
+          timestamp: shaped.item.isoDate || 'N/A',
+          url: shaped.item.link || '',
+          author: { name: shaped.title || '', url: shaped.link || '' },
+        });
       } catch (err) {
         console.log('[Queue task] fail');
         console.log(err);
@@ -101,10 +116,10 @@ export default class AppCron {
     return result;
   }
 
-  shapeData(result: Parser.Output<any>) {
+  shapeData(result: Parser.Output<unknown>) {
     return {
       ...pick(result, ['title', 'description', 'link']),
-      item: result.items.length ? result.items[0] : null,
+      item: result.items.length ? result.items[0] : {},
     };
   }
 
