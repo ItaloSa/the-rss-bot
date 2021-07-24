@@ -1,11 +1,12 @@
 import Queue, { QueueWorker } from 'queue';
 
+const SECCONDS_MULTIPLIER = 1000;
 export default class AppQueue {
   queue: Queue;
 
-  constructor() {
+  constructor(timeout = 10) {
     this.queue = Queue();
-    this.queue.timeout = 10 * 1000;
+    this.queue.timeout = timeout * SECCONDS_MULTIPLIER;
     this.queue.autostart = true;
     this.queue.concurrency = 1;
   }
