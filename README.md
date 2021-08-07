@@ -2,21 +2,34 @@
 
 A discord bot to send feed updates
 
-## Instalation
+## Commands
+
+The following commands are supported:
+
+| Command                   | Description                                                                                                       |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `$feed-add <name> <link>` | This command adds a new feed to the current channel.                                                              |
+| `$feed-list`              | this command lists all feeds in the current server with the following information: id, name, channel id and link. |
+| `$feed-remove <id>`       | This command removes the feed addressed to the given id.                                                          |
+
+## Contributing
+
+### Instalation
 
 1. Create a `.env` file following the example file `.env.example`
 
 2. Install the dependencies
-    ```
-        $ npm install
-    ```
+
+   ```
+       $ npm install
+   ```
 
 3. Run the project
-    ```
-        $ npm start
-    ```
+   ```
+       $ npm start
+   ```
 
-## Contributing
+### Standards
 
 This project follows the common open source strategy.
 
@@ -37,4 +50,3 @@ As convention, whe should create branches whith the following pattern:
 > When it does not have a related issue, the number should be 0;
 
 The types could be: feature, docs, fix, chore, refactor;
-
