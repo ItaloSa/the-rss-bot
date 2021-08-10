@@ -9,7 +9,7 @@ The following commands are supported:
 | Command                   | Description                                                                                                       |
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | `$feed-add <name> <link>` | This command adds a new feed to the current channel.                                                              |
-| `$feed-list`              | this command lists all feeds in the current server with the following information: id, name, channel id and link. |
+| `$feed-list`              | This command lists all feeds in the current server with the following information: id, name, channel id and link. |
 | `$feed-remove <id>`       | This command removes the feed addressed to the given id.                                                          |
 
 ## Contributing
